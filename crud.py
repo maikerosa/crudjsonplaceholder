@@ -10,6 +10,7 @@ class crud:
     
     def options(self):
         print('''
+        0 - Sair
         1 - Listar todos os usuários
         2 - Criar um usuário
         3 - Atualizar um usuário
