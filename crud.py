@@ -16,6 +16,7 @@ class crud:
         4 - Deletar um usuário
         5 - Listar TODOs de um usuário
         6 - Deletar uma tarefa
+        7 - Listar TODOs de um usuário
         ''')
     
     def menu(self):
@@ -54,12 +55,18 @@ class crud:
             elif op == 6:
                 task_id = input('Digite o ID da tarefa que deseja deletar: ')
                 print('Tarefa deletada! Status da ação: ', self.delete_task(task_id))
+            elif op == 7:
+                user_id = input('Digite o ID do usuário que deseja ver os TODOs: ')
+                print('TODOs do usuário: ', self.list_user_tasks(user_id))
             elif op == 0:
                 print('Saindo...')
             else:
                 print('Opção inválida!')
        
     
+    def list_user_tasks(self, user_id):
+        return requests.get(api_url + "/" + str(user_id) + "/todos").json()
+
     def list_todo(self, user_id):
         return requests.get(api_url + "/" + str(user_id) + "/todos").json()
 
