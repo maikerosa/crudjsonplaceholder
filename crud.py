@@ -57,7 +57,15 @@ class crud:
                 task_id = input('Digite o ID da tarefa que deseja deletar: ')
                 print('Tarefa deletada! Status da ação: ', self.delete_task(task_id))
             elif op == 7:
-                user_id = input('Digite o ID do usuário que deseja ver os TODOs: ')
+                user_id = 11
+                while user_id > 10 or user_id < 1:
+                    user_id = input('Digite o ID do usuário que deseja ver os TODOs (0>n<10): ')
+                    try:
+                        user_id = int(user_id)
+                    except:
+                        print('ID inválido!')
+                        user_id = 11
+                        continue
                 print('TODOs do usuário: ', self.list_user_tasks(user_id))
             elif op == 0:
                 print('Saindo...')
