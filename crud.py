@@ -68,7 +68,6 @@ class crud:
                 print('Tarefa criada! ', self.create_task(user_id, title, completed))
             elif op == 7:
                 task_id = input('Digite o ID da tarefa que deseja atualizar: ')
-                print('Tarefa selecionada: ', self.list_todo(task_id)[int(task_id) - 1]['title'])
                 title = input('Digite o título da tarefa: ')
                 completed = input('Digite o status da tarefa (true/false): ')
                 print('Tarefa atualizada! ', self.update_task(task_id, title, completed))
@@ -90,11 +89,9 @@ class crud:
     def list_user_tasks(self, user_id):
         return requests.get(api_url + "/" + str(user_id) + "/todos").json()
 
-    def list_todo(self, user_id=None, task_id=None):
-        if user_id:
-            return requests.get(api_url + "/" + str(user_id) + "/todos").json()
-        else:
-            return requests.get(api_url + "/todos").json()
+    def list_todo(self, user_id):
+        return requests.get(api_url + "/" + str(user_id) + "/todos").json()
+
     def create_user(self, name, username, email):
         return requests.post(api_url, data={"name": name, "username": username, "email": email}).json()
 
