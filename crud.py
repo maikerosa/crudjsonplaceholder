@@ -16,8 +16,9 @@ class crud:
         3 - Atualizar um usuário
         4 - Deletar um usuário
         5 - Listar TODOs de um usuário
-        6 - Deletar uma tarefa
-        7 - Listar TODOs de um usuário
+        6 - Criar uma tarefa
+        7 - Atualizar uma tarefa
+        8 - Deletar uma tarefa
         ''')
     
     def menu(self):
@@ -52,33 +53,48 @@ class crud:
                 print('Usuário deletado! Status da ação: ', self.delete_user(user_id))
             elif op == 5:
                 user_id = input('Digite o ID do usuário que deseja ver os TODOs: ')
-                print('TODOs do usuário: ', self.list_todo(user_id))
+                json =  self.list_todo(user_id)
+                print('TODOs do usuário: ')
+                for task in json:
+                    print('Título: ', task['title'])
+                    print('ID', task['id'])
+                    print('Status: ', task['completed'])
+                    print()
             elif op == 6:
+                user_id = input('Digite o ID do usuário que deseja criar uma tarefa: ')
+                print('Usuário seleionado: ', self.list_all_users(False)[int(user_id) - 1]['name'])
+                title = input('Digite o título da tarefa: ')
+                completed = input('Digite o status da tarefa (true/false): ')
+                print('Tarefa criada! ', self.create_task(user_id, title, completed))
+            elif op == 7:
+                task_id = input('Digite o ID da tarefa que deseja atualizar: ')
+                print('Tarefa selecionada: ', self.list_todo(task_id)[int(task_id) - 1]['title'])
+                title = input('Digite o título da tarefa: ')
+                completed = input('Digite o status da tarefa (true/false): ')
+                print('Tarefa atualizada! ', self.update_task(task_id, title, completed))
+            elif op == 8:
                 task_id = input('Digite o ID da tarefa que deseja deletar: ')
                 print('Tarefa deletada! Status da ação: ', self.delete_task(task_id))
-            elif op == 7:
-                user_id = 11
-                while user_id > 10 or user_id < 1:
-                    user_id = input('Digite o ID do usuário que deseja ver os TODOs (0>n<10): ')
-                    try:
-                        user_id = int(user_id)
-                    except:
-                        print('ID inválido!')
-                        user_id = 11
-                        continue
-                print('TODOs do usuário: ', self.list_user_tasks(user_id))
             elif op == 0:
                 print('Saindo...')
             else:
                 print('Opção inválida!')
        
     
+    def create_task(self, user_id, title, completed):
+        return requests.post(api_url + "/" + str(user_id) + "/todos", data={"title": title, "completed": completed}).json()
+
+    def update_task(self, task_id, title, completed):
+        return requests.put(api_url + "/" + str(task_id), data={"title": title, "completed": completed}).json()
+
     def list_user_tasks(self, user_id):
         return requests.get(api_url + "/" + str(user_id) + "/todos").json()
 
-    def list_todo(self, user_id):
-        return requests.get(api_url + "/" + str(user_id) + "/todos").json()
-
+    def list_todo(self, user_id=None, task_id=None):
+        if user_id:
+            return requests.get(api_url + "/" + str(user_id) + "/todos").json()
+        else:
+            return requests.get(api_url + "/todos").json()
     def create_user(self, name, username, email):
         return requests.post(api_url, data={"name": name, "username": username, "email": email}).json()
 
@@ -91,10 +107,11 @@ class crud:
     def delete_task(self, task_id):
         return requests.delete(api_url + "/" + str(task_id)).status_code
 
-    def list_all_users(self):
+    def list_all_users(self, print_users = True):
         list = requests.get(api_url).json()
-        for user in list:
-            print(user['name'])
+        if print_users:
+            for user in list:
+                print(user['name'])
         return list
 
 if __name__ == "__main__":
