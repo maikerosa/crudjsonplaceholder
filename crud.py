@@ -104,7 +104,7 @@ class crud:
     def list_user_tasks(self, user_id):
         return requests.get(api_url + "/" + str(user_id) + "/todos").json()
 
-    def list_todo(self, user_id=None, task_id=None):
+    def list_todo(self, user_id):
         return requests.get(api_url + "/" + str(user_id) + "/todos").json()
 
     def create_user(self, name, username, email):
