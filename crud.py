@@ -21,6 +21,7 @@ class crud:
         6 - Criar uma tarefa
         7 - Atualizar uma tarefa
         8 - Deletar uma tarefa
+        9 - Listar usuário específico
         ''')
     
     def menu(self):
@@ -77,6 +78,17 @@ class crud:
             elif op == 8:
                 task_id = input('Digite o ID da tarefa que deseja deletar: ')
                 print('Tarefa deletada! Status da ação: ', self.delete_task(task_id))
+            elif op == 9:
+                user_id = 11
+                while user_id > 10 or user_id < 1:
+                    user_id = input('Digite o ID do usuário que deseja ver:  0>n<10: ')
+                    try:
+                        user_id = int(user_id)
+                    except:
+                        print('ID inválido!')
+                        user_id = 11
+                        continue
+                print('Usuário selecionado: ', self.read_user(user_id))
             elif op == 0:
                 print('Saindo...')
             else:
@@ -97,6 +109,9 @@ class crud:
 
     def create_user(self, name, username, email):
         return requests.post(api_url, data={"name": name, "username": username, "email": email}).json()
+
+    def read_user(self, user_id):
+        return requests.get(api_url + "/" + str(user_id)).json()
 
     def update_user(self, user_id, name, username, email):
         return requests.put("api_url" + "/" + str(user_id), data={"name": name, "username": username, "email": email}).json()
