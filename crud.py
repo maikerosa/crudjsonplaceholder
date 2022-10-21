@@ -114,7 +114,7 @@ class crud:
         return requests.get(api_url + "/" + str(user_id)).json()
 
     def update_user(self, user_id, name, username, email):
-        return requests.put("api_url" + "/" + str(user_id), data={"name": name, "username": username, "email": email}).json()
+        return requests.put(api_url + "/" + str(user_id), data={"name": name, "username": username, "email": email}).json()
 
     def delete_user(self, user_id):
         return requests.delete(api_url + "/" + str(user_id)).status_code
