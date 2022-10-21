@@ -7,7 +7,7 @@ api_url_todos = "https://jsonplaceholder.typicode.com/todos"
 
 class uw():
     def __init__(self):
-        self.user_id = self.valid_user_id()
+        pass
 
     def valid_user_id(self):
         user_id = 11

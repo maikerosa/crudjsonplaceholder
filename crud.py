@@ -32,13 +32,13 @@ class crud:
                 email = input('Seu email: ')
                 print('Usuário criado! ', users.create_user(self, name, username, email))
             elif op == 3:
-                user_id =  users.valid_user_id().user_id
+                user_id =  users.valid_user_id(self)
                 name = input('Digite o seu nome: ')
                 username = input('Seu usuário: ')
                 email = input('Seu email: ')
                 print('Usuário atualizado! ' , users.update_user(self, user_id, name, username, email))
             elif op == 4:
-                user_id = users.valid_user_id().user_id
+                user_id = users.valid_user_id(self)
                 print('Usuário deletado! Status da ação: ', users.delete_user(self, user_id))
                 
             elif op == 5:
@@ -67,7 +67,6 @@ class crud:
                 print('Tarefa deletada! Status da ação: ', users.delete_task(self, task_id))
             elif op == 9:
                 user_id =  users.valid_user_id(self)
-            
                 print('Usuário selecionado: ', users.read_user(self, user_id))
             elif op == 0:
                 print('Saindo...')
